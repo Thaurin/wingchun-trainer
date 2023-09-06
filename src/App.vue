@@ -4,9 +4,7 @@
         <article>
             <TechniqueVideo :videoSource="randomVideo" />
         </article>
-        <nav>Leaderboards</nav>
         <aside>
-          <p>What is this technique called?</p>
           <Choices :choices="avaiableAnswers" />
         </aside>
     </div>
@@ -64,23 +62,28 @@ avaiableAnswers.value.splice(correctAnswerIndex, 0, correctAnswer.value)
     flex: 1;
     order: 1;
   }
-  #main > nav,
   #main > aside {
     flex: 0 0 20vw;
   }
-  #main > nav {
-    background: #D7E8D4;
-    order: 3;
-  }
   #main > aside {
-    background: beige;
+    background: lightgray;
     order: 2;
   }
   header, footer {
-    background: yellowgreen;
+    background: #FFC20E;
     height: 20vh;
   }
-  header, footer, article, nav, aside {
+  footer {
+    height: 10vh;
+  }
+  header {
+    font-size: 3em;
+    font-weight: bold;
+  }
+  header, footer, article, aside {
     padding: 1em;
+  }
+  article {
+    text-align: center;
   }
 </style>

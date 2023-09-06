@@ -1,10 +1,11 @@
 <template>
-    <div>
-        <ul>
-            <li v-for="choice in props.choices">
-                {{ choice.name }}
+    <h1 class="choices-header">What is this technique called?</h1>
+    <div class="choices">
+        <ol>
+            <li v-for="(item, index) in props.choices" :key="index">
+                {{ item.name }}
             </li>
-        </ul>
+        </ol>
     </div>
 </template>
 
@@ -21,4 +22,11 @@ const props = defineProps({
 </script>
 
 <style scoped>
+.choices-header {
+    font-size: 1.7em;
+}
+
+.choices {
+    font-size: 1.5em;
+}
 </style>
