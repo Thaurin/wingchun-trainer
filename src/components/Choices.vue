@@ -3,22 +3,20 @@
     <div class="choices">
         <ol>
             <li v-for="(item, index) in props.choices" :key="index">
-                {{ item.name }}
+                <a href="#" @click="emit('choiceClicked', item)">{{ item.name }}</a>
             </li>
         </ol>
     </div>
 </template>
 
 <script setup lang="ts">
-
-
+const emit = defineEmits(['choiceClicked'])
 const props = defineProps({
     choices: {
         type: Array,
         required: true
     }
 })
-
 </script>
 
 <style scoped>

@@ -7,16 +7,22 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 
 const video = ref(null)
-
 const props = defineProps({
     videoSource: {
         type: String,
         required: true
     }
 })
+
+watch(() => props.videoSource, (videoUrl) => {
+    // @ts-ignore
+    video.value.load()
+    // @ts-ignore
+    video.value.play()
+});
 
 function videoEnded() {
     // @ts-ignore

@@ -5,43 +5,63 @@
             <TechniqueVideo :videoSource="randomVideo" />
         </article>
         <aside>
-          <Choices :choices="avaiableAnswers" />
+          <Choices :choices="avaiableAnswers" @choiceClicked="choiceClicked" />
+          <div v-if="statusMessage" :class="{ status: true, 'status-false': !isCorrect, 'status-correct': isCorrect }">
+            {{ statusMessage }}
+          </div>
         </aside>
     </div>
     <footer>Wing Chun Dong Rotterdam</footer>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { eersteVorm } from './lib/vormen'
 import TechniqueVideo from './components/TechniqueVideo.vue'
 import Choices from './components/Choices.vue'
 
-const randomVideo = ref()
+const randomVideo = ref('')
 const correctAnswer = ref()
 const avaiableAnswers = ref()
+const statusMessage = ref()
+const isCorrect = ref()
 avaiableAnswers.value = []
 
 function getRandomTechnique(vorm: any) {
     return vorm.techniques[Math.floor(Math.random() * eersteVorm.techniques.length)]
 }
 
-correctAnswer.value = getRandomTechnique(eersteVorm)
+function loadVideo() {
+    correctAnswer.value = getRandomTechnique(eersteVorm)
+    avaiableAnswers.value = []
 
-for (let i=0; i < 5; i++) {
-    let answer: any
-    do {
-        answer = getRandomTechnique(eersteVorm)
-    } while (avaiableAnswers.value.some((el: any) => el.name === answer.name))
+    for (let i=0; i < 5; i++) {
+        let answer: any
+        do {
+            answer = getRandomTechnique(eersteVorm)
+        } while (avaiableAnswers.value.some((el: any) => el.name === answer.name))
 
-    avaiableAnswers.value.push(answer)
+        avaiableAnswers.value.push(answer)
+    }
+
+    randomVideo.value = `${eersteVorm.location}/${correctAnswer.value.files[0]}`
+
+    let correctAnswerIndex = Math.floor(Math.random() * eersteVorm.techniques.length)
+    avaiableAnswers.value.splice(correctAnswerIndex, 0, correctAnswer.value)
 }
 
-randomVideo.value = `${eersteVorm.location}/${correctAnswer.value.files[0]}`
+onMounted(() => {
+    loadVideo()
+})
 
-let correctAnswerIndex = Math.floor(Math.random() * eersteVorm.techniques.length)
-avaiableAnswers.value.splice(correctAnswerIndex, 0, correctAnswer.value)
-
+function choiceClicked(item: any) {
+    isCorrect.value = item.name === correctAnswer.value.name
+    statusMessage.value = item.name === correctAnswer.value.name ? 'Correct!' : 'False'
+    setTimeout(() => {
+        statusMessage.value = ''
+        loadVideo()
+    }, 1000)
+}
 </script>
 
 <style scoped>
@@ -85,5 +105,20 @@ avaiableAnswers.value.splice(correctAnswerIndex, 0, correctAnswer.value)
   }
   article {
     text-align: center;
+  }
+
+  .status {
+    font-size: 2em;
+    font-weight: bold;
+    text-align: center;
+    padding: 0.5em;
+  }
+  .status-correct {
+    color: black;
+    background-color: lime;
+  }
+  .status-false {
+    color: white;
+    background-color: red;
   }
 </style>
