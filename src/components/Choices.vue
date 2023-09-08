@@ -24,7 +24,8 @@ const props = defineProps({
     font-size: 1.7em;
 }
 
-.choices {
+.choices > ol > li > a {
     font-size: 1.5em;
+    text-decoration: none;
 }
 </style>

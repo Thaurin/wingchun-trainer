@@ -2,6 +2,9 @@
     <header>Virtual Sifu</header>
     <div id="main">
         <article>
+            <div class="score">
+                Correct: {{ correctCount }} | False: {{ falseCount }}
+            </div>
             <TechniqueVideo :videoSource="randomVideo" />
         </article>
         <aside>
@@ -20,6 +23,8 @@ import { eersteVorm } from './lib/vormen'
 import TechniqueVideo from './components/TechniqueVideo.vue'
 import Choices from './components/Choices.vue'
 
+const correctCount = ref(0)
+const falseCount = ref(0)
 const randomVideo = ref('')
 const correctAnswer = ref()
 const avaiableAnswers = ref()
@@ -39,7 +44,7 @@ function loadVideo() {
         let answer: any
         do {
             answer = getRandomTechnique(eersteVorm)
-        } while (avaiableAnswers.value.some((el: any) => el.name === answer.name))
+        } while (avaiableAnswers.value.some((el: any) => el.name === answer.name) && correctAnswer.value.name !== answer.name)
 
         avaiableAnswers.value.push(answer)
     }
@@ -57,6 +62,13 @@ onMounted(() => {
 function choiceClicked(item: any) {
     isCorrect.value = item.name === correctAnswer.value.name
     statusMessage.value = item.name === correctAnswer.value.name ? 'Correct!' : 'False'
+
+    if (isCorrect.value) {
+        correctCount.value++
+    } else {
+        falseCount.value++
+    }
+
     setTimeout(() => {
         statusMessage.value = ''
         loadVideo()
@@ -105,6 +117,11 @@ function choiceClicked(item: any) {
   }
   article {
     text-align: center;
+  }
+
+  .score {
+    font-size: 2em;
+    padding-bottom: 0.5em;
   }
 
   .status {

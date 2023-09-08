@@ -46,7 +46,7 @@ let eersteVorm = {
             files: ['hoi san pak sau.mp4']
         },
         {
-            name: 'Heun Sau',
+            name: 'Huen Sau',
             files: ['huen sau.mp4', 'huen sau 2.mp4']
         },
         {
@@ -66,7 +66,7 @@ let eersteVorm = {
             files: ['kwan sau.mp4', 'kwan sau 2.mp4']
         },
         {
-            name: 'Lower Kan Sau',
+            name: 'Lower Kang Sau',
             files: ['lower kang sau.mp4']
         },
         {
