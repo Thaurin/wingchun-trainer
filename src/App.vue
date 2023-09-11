@@ -8,8 +8,8 @@
             <TechniqueVideo :videoSource="randomVideo" />
         </article>
         <aside>
-          <Choices :choices="avaiableAnswers" @choiceClicked="choiceClicked" />
-          <div v-if="statusMessage" :class="{ status: true, 'status-false': !isCorrect, 'status-correct': isCorrect }">
+          <Choices @choiceClicked="choiceClicked" :choices="avaiableAnswers" :correctAnswer="correctAnswer" :hasAnswered="hasAnswered" :hasAnsweredCorrectly="hasAnsweredCorrectly" />
+          <div v-if="statusMessage" :class="{ status: true, 'status-false': !hasAnsweredCorrectly, 'status-correct': hasAnsweredCorrectly }">
             {{ statusMessage }}
           </div>
         </aside>
@@ -26,10 +26,11 @@ import Choices from './components/Choices.vue'
 const correctCount = ref(0)
 const falseCount = ref(0)
 const randomVideo = ref('')
-const correctAnswer = ref()
+const correctAnswer = ref({})
+const hasAnswered = ref()
+const hasAnsweredCorrectly = ref()
 const avaiableAnswers = ref()
 const statusMessage = ref()
-const isCorrect = ref()
 avaiableAnswers.value = []
 
 function getRandomTechnique(vorm: any) {
@@ -60,19 +61,21 @@ onMounted(() => {
 })
 
 function choiceClicked(item: any) {
-    isCorrect.value = item.name === correctAnswer.value.name
+    hasAnswered.value = true
+    hasAnsweredCorrectly.value = item.name === correctAnswer.value.name
     statusMessage.value = item.name === correctAnswer.value.name ? 'Correct!' : 'False'
 
-    if (isCorrect.value) {
+    if (hasAnsweredCorrectly.value) {
         correctCount.value++
     } else {
         falseCount.value++
     }
 
     setTimeout(() => {
+        hasAnswered.value = false
         statusMessage.value = ''
         loadVideo()
-    }, 1000)
+    }, 2000)
 }
 </script>
 
