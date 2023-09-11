@@ -45,7 +45,7 @@ function loadVideo() {
         let answer: any
         do {
             answer = getRandomTechnique(eersteVorm)
-        } while (avaiableAnswers.value.some((el: any) => el.name === answer.name) && correctAnswer.value.name !== answer.name)
+        } while (avaiableAnswers.value.some((el: any) => el.name === answer.name) || correctAnswer.value.name === answer.name)
 
         avaiableAnswers.value.push(answer)
     }
