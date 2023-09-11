@@ -1,4 +1,5 @@
 <template>
+<!DOCTYPE html>
     <header>Virtual Sifu</header>
     <div id="main">
         <article>
@@ -8,10 +9,10 @@
             <TechniqueVideo :videoSource="randomVideo" />
         </article>
         <aside>
-          <Choices @choiceClicked="choiceClicked" :choices="avaiableAnswers" :correctAnswer="correctAnswer" :hasAnswered="hasAnswered" :hasAnsweredCorrectly="hasAnsweredCorrectly" />
-          <div v-if="statusMessage" :class="{ status: true, 'status-false': !hasAnsweredCorrectly, 'status-correct': hasAnsweredCorrectly }">
+        <Choices @choiceClicked="choiceClicked" :choices="avaiableAnswers" :correctAnswer="correctAnswer" :hasAnswered="hasAnswered" :hasAnsweredCorrectly="hasAnsweredCorrectly" />
+        <div v-if="statusMessage" :class="{ status: true, 'status-false': !hasAnsweredCorrectly, 'status-correct': hasAnsweredCorrectly }">
             {{ statusMessage }}
-          </div>
+        </div>
         </aside>
     </div>
     <footer>Wing Chun Dong Rotterdam</footer>
@@ -79,14 +80,19 @@ function choiceClicked(item: any) {
 }
 </script>
 
-<style scoped>
+<style>
   * {
     box-sizing: border-box;
   }
+  html {
+    padding: 0;
+    margin: 0;
+  }
   body {
     display: flex;
-    min-height: 100vh;
+    min-height: 50vh;
     flex-direction: column;
+    padding: 0;
     margin: 0;
   }
   #main {
@@ -106,7 +112,9 @@ function choiceClicked(item: any) {
   }
   header, footer {
     background: #FFC20E;
-    height: 20vh;
+    height: 10vh;
+    padding: 0.5em !important;
+    margin: 0;
   }
   footer {
     height: 10vh;
