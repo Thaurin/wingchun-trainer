@@ -74,6 +74,9 @@ watch([Digit1, Digit2, Digit3, Digit4, Digit5, Digit6], (v) => {
 .false {
     background-color: red;
 }
+.false > a {
+    color: white !important;
+}
 .true {
     background-color: lime;
 }

@@ -4,7 +4,15 @@
     <div id="main">
         <article>
             <div class="score">
-                Correct: {{ correctCount }} | False: {{ falseCount }}
+                Technique {{ currentTechnique + 1 }} / {{ randomizedVormen.length }}
+                <br>
+                <div v-if="!gameFinished">
+                    Correct: {{ correctCount }} | False: {{ falseCount }}
+                </div>
+                <div v-else>
+                    Out of {{ randomizedVormen.length }}, you had {{ correctCount }} right. That is {{ Math.round(correctCount / randomizedVormen.length * 100) }}%!
+                    <button @click="resetGame">Play again</button>
+                </div>
             </div>
             <TechniqueVideo :videoSource="randomVideo" />
         </article>
@@ -19,13 +27,15 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { onMounted, ref, computed } from 'vue'
 import { eersteVorm } from './lib/vormen'
 import TechniqueVideo from './components/TechniqueVideo.vue'
 import Choices from './components/Choices.vue'
 
+const currentTechnique = ref(0)
 const correctCount = ref(0)
 const falseCount = ref(0)
+const gameFinished = ref(false)
 const randomVideo = ref('')
 const correctAnswer = ref({})
 const hasAnswered = ref()
@@ -34,26 +44,37 @@ const avaiableAnswers = ref()
 const statusMessage = ref()
 avaiableAnswers.value = []
 
+const randomizedVormen = computed(() => {
+    let vormen: any[] = [...eersteVorm.value.techniques]
+    for (let i=0; i < vormen.length; i++) {
+        const newIndex = Math.floor(Math.random() * eersteVorm.value.techniques.length)
+        const temp = vormen[i]
+        vormen[i] = vormen[newIndex]
+        vormen[newIndex] = temp
+    }
+    return vormen
+})
+
 function getRandomTechnique(vorm: any) {
-    return vorm.techniques[Math.floor(Math.random() * eersteVorm.techniques.length)]
+    return vorm.techniques[Math.floor(Math.random() * eersteVorm.value.techniques.length)]
 }
 
 function loadVideo() {
-    correctAnswer.value = getRandomTechnique(eersteVorm)
+    correctAnswer.value = randomizedVormen.value[currentTechnique.value]
     avaiableAnswers.value = []
 
     for (let i=0; i < 5; i++) {
         let answer: any
         do {
-            answer = getRandomTechnique(eersteVorm)
+            answer = getRandomTechnique(eersteVorm.value)
         } while (avaiableAnswers.value.some((el: any) => el.name === answer.name) || correctAnswer.value.name === answer.name)
 
         avaiableAnswers.value.push(answer)
     }
 
-    randomVideo.value = `${eersteVorm.location}/${correctAnswer.value.files[0]}`
+    randomVideo.value = `${eersteVorm.value.location}/${correctAnswer.value.files[0]}`
 
-    let correctAnswerIndex = Math.floor(Math.random() * eersteVorm.techniques.length)
+    let correctAnswerIndex = Math.floor(Math.random() * eersteVorm.value.techniques.length)
     avaiableAnswers.value.splice(correctAnswerIndex, 0, correctAnswer.value)
 }
 
@@ -62,6 +83,10 @@ onMounted(() => {
 })
 
 function choiceClicked(item: any) {
+    if (gameFinished.value) {
+        return
+    }
+
     hasAnswered.value = true
     hasAnsweredCorrectly.value = item.name === correctAnswer.value.name
     statusMessage.value = item.name === correctAnswer.value.name ? 'Correct!' : 'False'
@@ -72,11 +97,26 @@ function choiceClicked(item: any) {
         falseCount.value++
     }
 
-    setTimeout(() => {
-        hasAnswered.value = false
-        statusMessage.value = ''
-        loadVideo()
-    }, 2000)
+    if (currentTechnique.value + 1 < randomizedVormen.value.length) {
+        setTimeout(() => {
+            currentTechnique.value++
+            hasAnswered.value = false
+            statusMessage.value = ''
+            loadVideo()
+        }, 2000)
+    }
+    else {
+        gameFinished.value = true
+    }
+}
+
+function resetGame() {
+    currentTechnique.value = 0
+    correctCount.value = falseCount.value = 0
+    gameFinished.value = false
+    hasAnswered.value = false
+    statusMessage.value = ''
+    loadVideo()
 }
 </script>
 

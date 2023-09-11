@@ -1,4 +1,6 @@
-let eersteVorm = {
+import { ref } from 'vue'
+
+let eersteVorm = ref({
     location: '/eerste_vorm',
     techniques: [
         {
@@ -122,6 +124,6 @@ let eersteVorm = {
             files: ['wu sau.mp4']
         }
     ]
-}
+})
 
 export { eersteVorm }
