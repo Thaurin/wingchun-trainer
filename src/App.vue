@@ -83,7 +83,7 @@ onMounted(() => {
 })
 
 function choiceClicked(item: any) {
-    if (gameFinished.value) {
+    if (gameFinished.value || hasAnswered.value) {
         return
     }
 
