@@ -12,6 +12,9 @@
 </template>
 
 <script setup lang="ts">
+import { watch } from 'vue'
+import { useMagicKeys } from '@vueuse/core'
+
 const emit = defineEmits(['choiceClicked'])
 const props = defineProps({
     choices: {
@@ -38,6 +41,16 @@ const hightlightClassObject = (item: Object) => {
         'false': item.name === props.correctAnswer.name && props.hasAnswered && !props.hasAnsweredCorrectly
     }
 }
+
+const { Digit1, Digit2, Digit3, Digit4, Digit5, Digit6 } = useMagicKeys()
+watch([Digit1, Digit2, Digit3, Digit4, Digit5, Digit6], (v) => {
+    if (Digit1.value) emit('choiceClicked', props.choices[0])
+    else if (Digit2.value) emit('choiceClicked', props.choices[1])
+    else if (Digit3.value) emit('choiceClicked', props.choices[2])
+    else if (Digit4.value) emit('choiceClicked', props.choices[3])
+    else if (Digit5.value) emit('choiceClicked', props.choices[4])
+    else if (Digit6.value) emit('choiceClicked', props.choices[5])
+})
 </script>
 
 <style scoped>
