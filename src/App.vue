@@ -163,6 +163,9 @@ function resetGame() {
   html {
     padding: 0;
     margin: 0;
+    width: 80vw;
+    margin-left: auto;
+    margin-right: auto;
   }
   body {
     display: flex;
@@ -180,7 +183,7 @@ function resetGame() {
     order: 1;
   }
   #main > aside {
-    flex: 0 0 20vw;
+    flex: 0.5 0 20vw;
   }
   #main > aside {
     background: lightgray;
