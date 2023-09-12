@@ -17,6 +17,7 @@ const props = defineProps({
     }
 })
 
+// @ts-ignore
 watch(() => props.videoSource, (videoUrl) => {
     // @ts-ignore
     video.value.load()

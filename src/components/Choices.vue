@@ -4,7 +4,7 @@
         <div class="choices">
             <ol>
                 <li v-for="(item, index) in props.choices" :key="index" :class="hightlightClassObject(item)">
-                    <a href="#" @click="emit('choiceClicked', item)">{{ item.name }}</a>
+                    <a href="#" @click="emit('choiceClicked', item)">{{ (item as any).name }}</a>
                 </li>
             </ol>
         </div>
@@ -35,14 +35,17 @@ const props = defineProps({
     }
 })
 
-const hightlightClassObject = (item: Object) => {
+const hightlightClassObject = (item: any) => {
     return {
+        // @ts-ignore
         'true': item.name === props.correctAnswer.name && props.hasAnswered && props.hasAnsweredCorrectly,
+        // @ts-ignore
         'false': item.name === props.correctAnswer.name && props.hasAnswered && !props.hasAnsweredCorrectly
     }
 }
 
 const { Digit1, Digit2, Digit3, Digit4, Digit5, Digit6 } = useMagicKeys()
+// @ts-ignore
 watch([Digit1, Digit2, Digit3, Digit4, Digit5, Digit6], (v) => {
     if (Digit1.value) emit('choiceClicked', props.choices[0])
     else if (Digit2.value) emit('choiceClicked', props.choices[1])
