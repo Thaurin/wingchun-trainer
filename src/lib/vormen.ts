@@ -1,6 +1,6 @@
 import { ref } from 'vue'
 
-let eersteVorm = ref({
+const eersteVorm = ref({
     location: '/eerste_vorm',
     techniques: [
         {
@@ -126,4 +126,118 @@ let eersteVorm = ref({
     ]
 })
 
-export { eersteVorm }
+const tweedeVorm = ref({
+    location: '/tweede_vorm',
+    techniques: [
+        {
+            name: 'Boei Kuen',
+            files: ['boei kuen.mp4']
+        },
+        {
+            name: 'Chaam Chong',
+            files: ['chaam chong.mp4']
+        },
+        {
+            name: 'Che Ngoi Moon Kuen',
+            files: ['che ngoi moon kuen.mp4']
+        },
+        {
+            name: 'Chuun Kiu',
+            files: ['chuun kiu.mp4']
+        },
+        {
+            name: 'Chuun Sau',
+            files: ['chuun sau.mp4']
+        },
+        {
+            name: 'Dai Ngau Kuen',
+            files: ['dai ngau kuen.mp4']
+        },
+        {
+            name: 'Faht Chong Kuen',
+            files: ['faht chong kuen.mp4']
+        },
+        {
+            name: 'Fak Sau',
+            files: ['fak sau.mp4']
+        },
+        {
+            name: 'Fook Sau',
+            files: ['fook sau.mp4']
+        },
+        {
+            name: 'Gum Sau',
+            files: ['gum sau.mp4']
+        },
+        {
+            name: 'Huen Sau',
+            files: ['huen sau.mp4']
+        },
+        {
+            name: 'Jip Sau',
+            files: ['jip sau.mp4']
+        },
+        {
+            name: 'Lahn Sau',
+            files: ['lahn sau.mp4']
+        },
+        {
+            name: 'Pai Tsiang',
+            files: ['pai tsiang.mp4']
+        },
+        {
+            name: 'Pau Chang Bong Sau',
+            files: ['pau chang bong sau.mp4']
+        },
+        {
+            name: 'Sau Kuen',
+            files: ['sau kuen.mp4']
+        },
+        {
+            name: 'Sheung Biu Sau',
+            files: ['sheung biu sau.mp4', 'sheung biu sau 2.mp4']
+        },
+        {
+            name: 'Sheung Dai Bong Sau',
+            files: ['sheung dai bong sau.mp4']
+        },
+        {
+            name: 'Sheung Gum Sau',
+            files: ['sheung gum sau.mp4']
+        },
+        {
+            name: 'Sheung Kong Sau',
+            files: ['sheung kong sau.mp4']
+        },
+        {
+            name: 'Sheung Tahn Sau',
+            files: ['sheung tahn sau.mp4']
+        },
+        {
+            name: 'Tjuun Ma',
+            files: ['tjuun ma.mp4']
+        },
+        {
+            name: 'Tjuun San Wang Kiuk',
+            files: ['tjuun san wang kiuk.mp4']
+        },
+        {
+            name: 'Tsing Cheung',
+            files: ['tsing cheung.mp4']
+        },
+        {
+            name: 'Tsing San Kiuk',
+            files: ['tsing san kiuk.mp4']
+        },
+        {
+            name: 'Yang Sau',
+            files: ['yang sau.mp4']
+        },
+        {
+            name: 'Yie Tsiang Bong Sau',
+            files: ['yie tsiang bong sau.mp4']
+        }
+    ]
+})
+
+export { eersteVorm, tweedeVorm }

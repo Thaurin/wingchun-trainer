@@ -3,6 +3,10 @@
     <header>Virtual Sifu</header>
     <div id="main">
         <article>
+            <div class="vormSelector">
+                <input type="checkbox" :checked="eersteVormChecked" @change="eersteCheckboxClicked"> Siu Lim Tao |
+                <input type="checkbox" :checked="tweedeVormChecked" @change="tweedeCheckboxClicked"> Cham Kiu
+            </div>
             <div class="score">
                 Technique {{ currentTechnique + 1 }} / {{ randomizedVormen.length }}
                 <br>
@@ -14,7 +18,7 @@
                     <button @click="resetGame">Play again</button>
                 </div>
             </div>
-            <TechniqueVideo :videoSource="randomVideo" />
+            <TechniqueVideo :videoSource="correctAnswer.file" />
         </article>
         <aside>
         <Choices @choiceClicked="choiceClicked" :choices="avaiableAnswers" :correctAnswer="correctAnswer" :hasAnswered="hasAnswered" :hasAnsweredCorrectly="hasAnsweredCorrectly" />
@@ -28,35 +32,69 @@
 
 <script setup lang="ts">
 import { onMounted, ref, computed } from 'vue'
-import { eersteVorm } from './lib/vormen'
+import { eersteVorm, tweedeVorm } from './lib/vormen'
 import TechniqueVideo from './components/TechniqueVideo.vue'
 import Choices from './components/Choices.vue'
 
+const eersteVormChecked = ref(true)
+const tweedeVormChecked = ref(true)
 const currentTechnique = ref(0)
 const correctCount = ref(0)
 const falseCount = ref(0)
 const gameFinished = ref(false)
-const randomVideo = ref('')
-const correctAnswer = ref({})
+const correctAnswer = ref({ name: '', file: ''})
 const hasAnswered = ref()
 const hasAnsweredCorrectly = ref()
 const avaiableAnswers = ref()
 const statusMessage = ref()
 avaiableAnswers.value = []
 
-const randomizedVormen = computed(() => {
-    let vormen: any[] = [...eersteVorm.value.techniques]
-    for (let i=0; i < vormen.length; i++) {
-        const newIndex = Math.floor(Math.random() * eersteVorm.value.techniques.length)
-        const temp = vormen[i]
-        vormen[i] = vormen[newIndex]
-        vormen[newIndex] = temp
+function eersteCheckboxClicked(event: any) {
+    eersteVormChecked.value = event.target.checked
+    if (!eersteVormChecked.value) {
+        tweedeVormChecked.value = true
     }
-    return vormen
+    resetGame()
+}
+
+function tweedeCheckboxClicked(event: any) {
+    tweedeVormChecked.value = event.target.checked
+    if (!tweedeVormChecked.value) {
+        eersteVormChecked.value = true
+    }
+    resetGame()
+}
+
+const randomizedVormen = computed(() => {
+    let techniqueList: any[] = []
+
+    if (eersteVormChecked.value) {
+        const eersteVormFixed = eersteVorm.value.techniques.map(item => ({
+            name: item.name,
+            file: `${eersteVorm.value.location}/${item.files[0]}`
+        }))
+        techniqueList = techniqueList.concat(eersteVormFixed)
+    }
+
+    if (tweedeVormChecked.value) {
+        const tweedeVormFixed = tweedeVorm.value.techniques.map(item => ({
+            name: item.name,
+            file: `${tweedeVorm.value.location}/${item.files[0]}`
+        }))
+        techniqueList = techniqueList.concat(tweedeVormFixed)
+    }
+
+    for (let i=0; i < techniqueList.length; i++) {
+        const newIndex = Math.floor(Math.random() * techniqueList.length)
+        const temp = techniqueList[i]
+        techniqueList[i] = techniqueList[newIndex]
+        techniqueList[newIndex] = temp
+    }
+    return techniqueList
 })
 
-function getRandomTechnique(vorm: any) {
-    return vorm.techniques[Math.floor(Math.random() * eersteVorm.value.techniques.length)]
+function getRandomTechnique(techniqueList: any) {
+    return techniqueList[Math.floor(Math.random() * techniqueList.length)]
 }
 
 function loadVideo() {
@@ -66,15 +104,13 @@ function loadVideo() {
     for (let i=0; i < 5; i++) {
         let answer: any
         do {
-            answer = getRandomTechnique(eersteVorm.value)
+            answer = getRandomTechnique(randomizedVormen.value)
         } while (avaiableAnswers.value.some((el: any) => el.name === answer.name) || correctAnswer.value.name === answer.name)
 
         avaiableAnswers.value.push(answer)
     }
 
-    randomVideo.value = `${eersteVorm.value.location}/${correctAnswer.value.files[0]}`
-
-    let correctAnswerIndex = Math.floor(Math.random() * eersteVorm.value.techniques.length)
+    let correctAnswerIndex = Math.floor(Math.random() * randomizedVormen.value.length)
     avaiableAnswers.value.splice(correctAnswerIndex, 0, correctAnswer.value)
 }
 
