@@ -1,6 +1,6 @@
 <template>
     <div>
-        <video ref="video" id="technique-video" width="640" autoplay muted @ended="videoEnded">
+        <video ref="video" id="technique-video" width="640" autoplay muted playsinline @ended="videoEnded">
             <source :src="props.videoSource" type="video/mp4">
         </video>
     </div>
