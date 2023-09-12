@@ -1,6 +1,6 @@
 <template>
 <!DOCTYPE html>
-    <header>Virtual Sifu</header>
+    <header>Wing Chun Trainer</header>
     <div id="main">
         <article>
             <div class="vormSelector">
@@ -188,15 +188,15 @@ function resetGame() {
   }
   header, footer {
     background: #FFC20E;
-    height: 10vh;
+    height: 2em;
     padding: 0.5em !important;
     margin: 0;
   }
   footer {
-    height: 10vh;
+    height: 2.25em;
   }
   header {
-    font-size: 3em;
+    font-size: 1.5em;
     font-weight: bold;
   }
   header, footer, article, aside {
@@ -207,12 +207,12 @@ function resetGame() {
   }
 
   .score {
-    font-size: 2em;
+    font-size: 1.5em;
     padding-bottom: 0.5em;
   }
 
   .status {
-    font-size: 2em;
+    font-size: 1.5em;
     font-weight: bold;
     text-align: center;
     padding: 0.5em;
