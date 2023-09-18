@@ -1,6 +1,5 @@
 <template>
     <div>
-        <h1 class="choices-header">What is this technique called?</h1>
         <div class="choices">
             <ol>
                 <li v-for="(item, index) in props.choices" :key="index" :class="hightlightClassObject(item)">
@@ -58,11 +57,11 @@ watch([Digit1, Digit2, Digit3, Digit4, Digit5, Digit6], (v) => {
 
 <style scoped>
 .choices-header {
-    font-size: 1.4em;
+    font-size: 1.6em;
 }
 .choices > ol > li > a {
     color: black;
-    font-size: 1.25em;
+    font-size: 1.5em;
     text-decoration: none;
 }
 .choices > ol > li > a:visited, .choices > ol > li > a:hover {

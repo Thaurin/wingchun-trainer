@@ -1,32 +1,49 @@
 <template>
-<!DOCTYPE html>
     <header>Wing Chun Trainer</header>
-    <div id="main">
-        <article>
-            <div class="vormSelector">
-                <input type="checkbox" :checked="eersteVormChecked" @change="eersteCheckboxClicked"> Siu Lim Tao |
-                <input type="checkbox" :checked="tweedeVormChecked" @change="tweedeCheckboxClicked"> Cham Kiu
-            </div>
-            <div class="score">
-                Technique {{ currentTechnique + 1 }} / {{ randomizedVormen.length }}
-                <br>
-                <div v-if="!gameFinished">
-                    Correct: {{ correctCount }} | False: {{ falseCount }}
-                </div>
-                <div v-else>
-                    Out of {{ randomizedVormen.length }}, you had {{ correctCount }} right. That is {{ Math.round(correctCount / randomizedVormen.length * 100) }}%!
-                    <button @click="resetGame">Play again</button>
-                </div>
-            </div>
-            <TechniqueVideo :videoSource="correctAnswer.file" />
-        </article>
-        <aside>
-        <Choices @choiceClicked="choiceClicked" :choices="avaiableAnswers" :correctAnswer="correctAnswer" :hasAnswered="hasAnswered" :hasAnsweredCorrectly="hasAnsweredCorrectly" />
-        <div v-if="statusMessage" :class="{ status: true, 'status-false': !hasAnsweredCorrectly, 'status-correct': hasAnsweredCorrectly }">
-            {{ statusMessage }}
-        </div>
-        </aside>
-    </div>
+
+    <section id="sbs-1308">
+      <div class="cs-container">
+          <!-- Left Image Section -->
+          <div class="cs-image-group">
+              <!--Floating Box-->
+              <div class="cs-box">
+                  <div class="score">
+                      Technique {{ currentTechnique + 1 }} / {{ randomizedVormen.length }}
+                      <br>
+                      <div>
+                          Correct: {{ correctCount }} | False: {{ falseCount }}
+                      </div>
+                      <div v-if="gameFinished">
+                        <span class="game-ended-message">
+                          <br>
+                          Score: {{ Math.round(correctCount / randomizedVormen.length * 100) }}%&nbsp;
+                          <button class="reset-button" @click="resetGame">Play again</button>
+                        </span>
+                      </div>
+                  </div>
+              </div>
+
+              <!--Image-->
+              <picture class="cs-picture">
+                  <div class="vormSelector">
+                    <input type="checkbox" :checked="eersteVormChecked" @change="eersteCheckboxClicked"> Siu Lim Tao |
+                    <input type="checkbox" :checked="tweedeVormChecked" @change="tweedeCheckboxClicked"> Cham Kiu
+                  </div>
+                  <TechniqueVideo :videoSource="correctAnswer.file" />
+              </picture>
+          </div>
+          <!-- Right Content Section-->
+          <div class="cs-content">
+              <span class="cs-topper">What is this technique called?</span>
+
+              <Choices @choiceClicked="choiceClicked" :choices="avaiableAnswers" :correctAnswer="correctAnswer" :hasAnswered="hasAnswered" :hasAnsweredCorrectly="hasAnsweredCorrectly" />
+              <div v-if="statusMessage" :class="{ status: true, 'status-false': !hasAnsweredCorrectly, 'status-correct': hasAnsweredCorrectly }">
+                  {{ statusMessage }}
+              </div>
+          </div>
+      </div>
+    </section>
+
     <footer>Wing Chun Dong Rotterdam</footer>
 </template>
 
@@ -210,8 +227,9 @@ function resetGame() {
   }
 
   .score {
-    font-size: 1.5em;
-    padding-bottom: 0.5em;
+    color: white;
+    font-size: 1.1em;
+    padding-bottom: 0.25em;
   }
 
   .status {
@@ -227,5 +245,28 @@ function resetGame() {
   .status-false {
     color: white;
     background-color: red;
+  }
+
+  .game-ended-message {
+    font-weight: bold;
+    white-space: nowrap;
+  }
+  .reset-button {
+    border: 0;
+    outline: 0;
+    cursor: pointer;
+    color: rgb(60, 66, 87);
+    background-color: rgb(255, 255, 255);
+    box-shadow: rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 12%) 0px 1px 1px 0px, rgb(60 66 87 / 16%) 0px 0px 0px 1px, rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(60 66 87 / 8%) 0px 2px 5px 0px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 4px 8px;
+    display: inline-block;
+    min-height: 28px;
+    transition: background-color .24s,box-shadow .24s;
+    :hover {
+        box-shadow: rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(0 0 0 / 12%) 0px 1px 1px 0px, rgb(60 66 87 / 16%) 0px 0px 0px 1px, rgb(0 0 0 / 0%) 0px 0px 0px 0px, rgb(60 66 87 / 8%) 0px 3px 9px 0px, rgb(60 66 87 / 8%) 0px 2px 5px 0px;
+    }
   }
 </style>
