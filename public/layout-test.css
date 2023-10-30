@@ -39,6 +39,8 @@
       gap: clamp(3rem, 4vw, 4rem);
     }
     #sbs-1308 .cs-content {
+      background-color: #f1f1f1;
+      padding: 1rem;
       /* set text align to left if content needs to be left aligned */
       text-align: left;
       width: 100%;
@@ -240,9 +242,10 @@
       align-items: stretch;
     }
     #sbs-1308 .cs-content {
+      background-color: #f1f1f1;
       width: 48%;
-      padding: 3rem 0;
-      align-self: center;
+      padding: 1rem;
+      align-self: top;
       /* prevents flexbox from squishing it */
       flex: none;
     }
