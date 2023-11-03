@@ -1,50 +1,32 @@
 <template>
-    <header>Wing Chun Trainer</header>
+    <div class="row">
+        <div class="main">
+            <div class="video-status">
+                <input type="checkbox" :checked="eersteVormChecked" @change="eersteCheckboxClicked"> Siu Lim Tao |
+                <input type="checkbox" :checked="tweedeVormChecked" @change="tweedeCheckboxClicked"> Cham Kiu
+                <br>
+                {{ currentTechnique + 1 }} / {{ randomizedVormen.length }} |
+                Correct: {{ correctCount }} | False: {{ falseCount }}
 
-    <section id="sbs-1308">
-      <div class="cs-container">
-          <!-- Left Image Section -->
-          <div class="cs-image-group">
-              <!--Floating Box-->
-              <div class="cs-box">
-                  <div class="score">
-                      Technique {{ currentTechnique + 1 }} / {{ randomizedVormen.length }}
+                <div v-if="gameFinished">
+                    <span class="game-ended-message">
                       <br>
-                      <div>
-                          Correct: {{ correctCount }} | False: {{ falseCount }}
-                      </div>
-                      <div v-if="gameFinished">
-                        <span class="game-ended-message">
-                          <br>
-                          Score: {{ Math.round(correctCount / randomizedVormen.length * 100) }}%&nbsp;
-                          <button class="reset-button" @click="resetGame">Play again</button>
-                        </span>
-                      </div>
-                  </div>
-              </div>
+                      Score: {{ Math.round(correctCount / randomizedVormen.length * 100) }}%&nbsp;
+                      <button class="reset-button" @click="resetGame">Play again</button>
+                    </span>
+                </div>
+            </div>
 
-              <!--Image-->
-              <picture class="cs-picture">
-                  <div class="vormSelector">
-                    <input type="checkbox" :checked="eersteVormChecked" @change="eersteCheckboxClicked"> Siu Lim Tao |
-                    <input type="checkbox" :checked="tweedeVormChecked" @change="tweedeCheckboxClicked"> Cham Kiu
-                  </div>
-                  <TechniqueVideo :videoSource="correctAnswer.file" />
-              </picture>
-          </div>
-          <!-- Right Content Section-->
-          <div class="cs-content">
-              <span class="cs-topper">What is this technique called?</span>
+            <TechniqueVideo :videoSource="correctAnswer.file" />
+        </div>
+        <div class="side">
+            <Choices @choiceClicked="choiceClicked" :choices="avaiableAnswers" :correctAnswer="correctAnswer" :hasAnswered="hasAnswered" :hasAnsweredCorrectly="hasAnsweredCorrectly" />
 
-              <Choices @choiceClicked="choiceClicked" :choices="avaiableAnswers" :correctAnswer="correctAnswer" :hasAnswered="hasAnswered" :hasAnsweredCorrectly="hasAnsweredCorrectly" />
-              <div v-if="statusMessage" :class="{ status: true, 'status-false': !hasAnsweredCorrectly, 'status-correct': hasAnsweredCorrectly }">
-                  {{ statusMessage }}
-              </div>
-          </div>
-      </div>
-    </section>
-
-    <footer>Wing Chun Dong Rotterdam</footer>
+            <div v-if="statusMessage" :class="{ status: true, 'status-false': !hasAnsweredCorrectly, 'status-correct': hasAnsweredCorrectly }">
+                {{ statusMessage }}
+            </div>
+        </div>
+    </div>
 </template>
 
 <script setup lang="ts">
@@ -174,62 +156,8 @@ function resetGame() {
 </script>
 
 <style>
-  * {
-    box-sizing: border-box;
-  }
-  html {
-    padding: 0;
-    margin: 0;
-    width: 80vw;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  body {
-    display: flex;
-    min-height: 50vh;
-    flex-direction: column;
-    padding: 0;
-    margin: 0;
-  }
-  #main {
-    display: flex;
-    flex: 1;
-  }
-  #main > article {
-    flex: 1;
-    order: 1;
-  }
-  #main > aside {
-    flex: 0.5 0 20vw;
-  }
-  #main > aside {
-    background: lightgray;
-    order: 2;
-  }
-  header, footer {
-    background: #FFC20E;
-    height: 2em;
-    padding: 0.5em !important;
-    margin: 0;
-  }
-  footer {
-    height: 2.25em;
-  }
-  header {
-    font-size: 1.5em;
-    font-weight: bold;
-  }
-  header, footer, article, aside {
-    padding: 1em;
-  }
-  article {
-    text-align: center;
-  }
+  .video-status {
 
-  .score {
-    color: white;
-    font-size: 1.1em;
-    padding-bottom: 0.25em;
   }
 
   .status {
@@ -251,6 +179,7 @@ function resetGame() {
     font-weight: bold;
     white-space: nowrap;
   }
+
   .reset-button {
     border: 0;
     outline: 0;
