@@ -1,6 +1,8 @@
 <template>
     <div class="row">
         <div class="main">
+            <TechniqueVideo :videoSource="correctAnswer.file" />
+
             <div class="video-status">
                 <input type="checkbox" :checked="eersteVormChecked" @change="eersteCheckboxClicked"> Siu Lim Tao |
                 <input type="checkbox" :checked="tweedeVormChecked" @change="tweedeCheckboxClicked"> Cham Kiu
@@ -16,8 +18,6 @@
                     </span>
                 </div>
             </div>
-
-            <TechniqueVideo :videoSource="correctAnswer.file" />
         </div>
         <div class="side">
             <Choices @choiceClicked="choiceClicked" :choices="avaiableAnswers" :correctAnswer="correctAnswer" :hasAnswered="hasAnswered" :hasAnsweredCorrectly="hasAnsweredCorrectly" />
