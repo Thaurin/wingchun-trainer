@@ -109,7 +109,7 @@ function loadVideo() {
         avaiableAnswers.value.push(answer)
     }
 
-    let correctAnswerIndex = Math.floor(Math.random() * randomizedVormen.value.length)
+    let correctAnswerIndex = Math.floor(Math.random() * avaiableAnswers.value.length)
     avaiableAnswers.value.splice(correctAnswerIndex, 0, correctAnswer.value)
 }
 
