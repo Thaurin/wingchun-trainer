@@ -31,9 +31,20 @@
 
 <script setup lang="ts">
 import { onMounted, ref, computed } from 'vue'
+import { supabase } from './lib/supabaseClient'
 import { eersteVorm, tweedeVorm } from './lib/vormen'
 import TechniqueVideo from './components/TechniqueVideo.vue'
 import Choices from './components/Choices.vue'
+
+async function signInWithGithub() {
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider: 'github',
+  })
+
+  console.log(data, error)
+}
+
+signInWithGithub()
 
 const eersteVormChecked = ref(true)
 const tweedeVormChecked = ref(true)
