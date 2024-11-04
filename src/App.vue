@@ -8,13 +8,13 @@
                 <input type="checkbox" :checked="tweedeVormChecked" @change="tweedeCheckboxClicked"> Cham Kiu
                 <br>
                 {{ currentTechnique + 1 }} / {{ randomizedVormen.length }} |
-                Correct: {{ correctCount }} | False: {{ falseCount }}
+                Correct: {{ correctCount }} | Wrong: {{ falseList.length }}
 
                 <div v-if="gameFinished">
                     <span class="game-ended-message">
                       <br>
                       Score: {{ Math.round(correctCount / randomizedVormen.length * 100) }}%&nbsp;
-                      <button class="reset-button" @click="resetGame">Play again</button>
+                      <button class="reset-button" @click="resetGame(false)">Play again</button>
                     </span>
                 </div>
             </div>
@@ -24,6 +24,17 @@
 
             <div v-if="statusMessage" :class="{ status: true, 'status-false': !hasAnsweredCorrectly, 'status-correct': hasAnsweredCorrectly }">
                 {{ statusMessage }}
+            </div>
+
+            <div class="false-list">
+                <h2>Wrong answers:</h2>
+                <span v-if="falseList.length === 0">None so far!</span>
+                <ul>
+                    <li v-for="(item, index) in falseList" :key="index">
+                        {{ item.name }}
+                    </li>
+                </ul>
+                <button class="falselist-button" @click="resetGame(true)" :disabled="falseList.length == 0">Practive wrong answers</button>
             </div>
         </div>
     </div>
@@ -37,9 +48,10 @@ import Choices from './components/Choices.vue'
 
 const eersteVormChecked = ref(true)
 const tweedeVormChecked = ref(true)
+const practiceFalseList = ref(false)
 const currentTechnique = ref(0)
 const correctCount = ref(0)
-const falseCount = ref(0)
+const falseList = ref()
 const gameFinished = ref(false)
 const correctAnswer = ref({ name: '', file: ''})
 const hasAnswered = ref()
@@ -47,6 +59,7 @@ const hasAnsweredCorrectly = ref()
 const avaiableAnswers = ref()
 const statusMessage = ref()
 avaiableAnswers.value = []
+falseList.value = []
 
 function eersteCheckboxClicked(event: any) {
     eersteVormChecked.value = event.target.checked
@@ -67,20 +80,28 @@ function tweedeCheckboxClicked(event: any) {
 const randomizedVormen = computed(() => {
     let techniqueList: any[] = []
 
-    if (eersteVormChecked.value) {
-        const eersteVormFixed = eersteVorm.value.techniques.map(item => ({
-            name: item.name,
-            file: `${eersteVorm.value.location}/${item.files[0]}`
-        }))
-        techniqueList = techniqueList.concat(eersteVormFixed)
-    }
+    if (!practiceFalseList.value) {
+        if (eersteVormChecked.value) {
+            const eersteVormFixed = eersteVorm.value.techniques.map(item => ({
+                name: item.name,
+                //file: `${eersteVorm.value.location}/${item.files[0]}`
+                file: item.files[0]
+            }))
+            techniqueList = techniqueList.concat(eersteVormFixed)
+        }
 
-    if (tweedeVormChecked.value) {
-        const tweedeVormFixed = tweedeVorm.value.techniques.map(item => ({
-            name: item.name,
-            file: `${tweedeVorm.value.location}/${item.files[0]}`
-        }))
-        techniqueList = techniqueList.concat(tweedeVormFixed)
+        if (tweedeVormChecked.value) {
+            const tweedeVormFixed = tweedeVorm.value.techniques.map(item => ({
+                name: item.name,
+                //file: `${tweedeVorm.value.location}/${item.files[0]}`
+                file: item.files[0]
+            }))
+            techniqueList = techniqueList.concat(tweedeVormFixed)
+        }
+    }
+    else {
+        alert('Sorry! Not implemented yet.')
+        resetGame(false)
     }
 
     for (let i=0; i < techniqueList.length; i++) {
@@ -129,7 +150,7 @@ function choiceClicked(item: any) {
     if (hasAnsweredCorrectly.value) {
         correctCount.value++
     } else {
-        falseCount.value++
+        falseList.value.push(correctAnswer.value)
     }
 
     if (currentTechnique.value + 1 < randomizedVormen.value.length) {
@@ -145,9 +166,11 @@ function choiceClicked(item: any) {
     }
 }
 
-function resetGame() {
+function resetGame(practiceWrongAnswers = false) {
     currentTechnique.value = 0
-    correctCount.value = falseCount.value = 0
+    correctCount.value = 0
+    falseList.value = []
+    practiceFalseList.value = practiceWrongAnswers
     gameFinished.value = false
     hasAnswered.value = false
     statusMessage.value = ''
@@ -158,6 +181,10 @@ function resetGame() {
 <style>
   .video-status {
 
+  }
+
+  .false-list {
+    margin-left: 1em;
   }
 
   .status {
