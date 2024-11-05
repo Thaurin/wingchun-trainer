@@ -100,8 +100,7 @@ const randomizedVormen = computed(() => {
         }
     }
     else {
-        alert('Sorry! Not implemented yet.')
-        resetGame(false)
+        techniqueList = structuredClone(falseList.value);
     }
 
     for (let i=0; i < techniqueList.length; i++) {
