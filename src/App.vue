@@ -194,7 +194,13 @@ function answerEntered(event: any) {
         return
     }
 
-    hasAnsweredCorrectly.value = typedAnswer.value.toLowerCase() === correctAnswer.value.name.toLowerCase()
+    let answer = typedAnswer.value.trim().toLowerCase()
+    if (answer === '') {
+        typedAnswer.value = ''
+        return
+    }
+
+    hasAnsweredCorrectly.value = answer === correctAnswer.value.name.toLowerCase()
     handleAnswer(hasAnsweredCorrectly.value)
 }
 
