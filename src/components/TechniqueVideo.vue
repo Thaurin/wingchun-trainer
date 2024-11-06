@@ -13,7 +13,7 @@ const video = ref(null)
 const props = defineProps({
     videoSource: {
         type: String,
-        required: true
+        required: trueTTT
     }
 })
 

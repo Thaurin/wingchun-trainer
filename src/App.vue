@@ -4,11 +4,24 @@
             <TechniqueVideo :videoSource="correctAnswer.file" />
 
             <div class="video-status">
-                <input type="checkbox" :checked="eersteVormChecked" @change="eersteCheckboxClicked"> Siu Lim Tao |
-                <input type="checkbox" :checked="tweedeVormChecked" @change="tweedeCheckboxClicked"> Cham Kiu
+                <label>
+                    <input type="checkbox" :checked="eersteVormChecked" @change="eersteCheckboxClicked">
+                    Siu Lim Tao
+                </label>
+                <label style="margin-left: 1em">
+                    <input type="checkbox" :checked="tweedeVormChecked" @change="tweedeCheckboxClicked">
+                    Cham Kiu
+                </label>
                 <br>
-                {{ currentTechnique + 1 }} / {{ randomizedVormen.length }} |
-                Correct: {{ correctCount }} | Wrong: {{ falseList.length }}
+                <label>
+                    <input type="checkbox" :checked="multipleChoice" @change="multipleChoiceClicked">
+                    Multiple choice
+                </label>
+
+                <div style="font-weight: bold; font-size: 1.2em; margin-top: 0.5em">
+                    {{ currentTechnique + 1 }} / {{ randomizedVormen.length }} |
+                    Correct: {{ correctCount }} | Wrong: {{ falseList.length }}
+                </div>
 
                 <div v-if="gameFinished">
                     <span class="game-ended-message">
@@ -20,10 +33,19 @@
             </div>
         </div>
         <div class="side">
-            <Choices @choiceClicked="choiceClicked" :choices="avaiableAnswers" :correctAnswer="correctAnswer" :hasAnswered="hasAnswered" :hasAnsweredCorrectly="hasAnsweredCorrectly" />
+            <div v-if="multipleChoice">
+                <Choices @choiceClicked="choiceClicked" :choices="avaiableAnswers" :correctAnswer="correctAnswer" :hasAnswered="hasAnswered" :hasAnsweredCorrectly="hasAnsweredCorrectly" />
+            </div>
+            <div v-else>
+                <div style="padding: 1em">
+                    <input ref="answerTextRef" type="text" v-model="typedAnswer" id="answer_text" @keypress="answerEntered" style="font-size: 1.3em; width: 20em; height: 2em">
+                </div>
+            </div>
 
             <div v-if="statusMessage" :class="{ status: true, 'status-false': !hasAnsweredCorrectly, 'status-correct': hasAnsweredCorrectly }">
                 {{ statusMessage }}
+                <br>
+                <span style="font-size: 0.7em">{{ statusSubMessage }}</span>
             </div>
 
             <div class="false-list">
@@ -41,11 +63,13 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, computed } from 'vue'
+import { onMounted, ref, computed, nextTick } from 'vue'
 import { eersteVorm, tweedeVorm } from './lib/vormen'
 import TechniqueVideo from './components/TechniqueVideo.vue'
 import Choices from './components/Choices.vue'
 
+const multipleChoice = ref(false)
+const typedAnswer = ref()
 const eersteVormChecked = ref(true)
 const tweedeVormChecked = ref(true)
 const practiceFalseList = ref(false)
@@ -58,8 +82,10 @@ const hasAnswered = ref()
 const hasAnsweredCorrectly = ref()
 const avaiableAnswers = ref()
 const statusMessage = ref()
+const statusSubMessage = ref()
 avaiableAnswers.value = []
 falseList.value = []
+const answerTextRef = ref()
 
 function eersteCheckboxClicked(event: any) {
     eersteVormChecked.value = event.target.checked
@@ -75,6 +101,15 @@ function tweedeCheckboxClicked(event: any) {
         eersteVormChecked.value = true
     }
     resetGame()
+}
+
+function multipleChoiceClicked(event: any) {
+    multipleChoice.value = event.target.checked
+    if (!multipleChoice.value) {
+        nextTick(() => {
+            answerTextRef.value.focus()
+        })
+    }
 }
 
 const randomizedVormen = computed(() => {
@@ -119,6 +154,7 @@ function getRandomTechnique(techniqueList: any) {
 function loadVideo() {
     correctAnswer.value = randomizedVormen.value[currentTechnique.value]
     avaiableAnswers.value = []
+    typedAnswer.value = ''
 
     for (let i=0; i < 5; i++) {
         let answer: any
@@ -131,9 +167,16 @@ function loadVideo() {
 
     let correctAnswerIndex = Math.floor(Math.random() * avaiableAnswers.value.length)
     avaiableAnswers.value.splice(correctAnswerIndex, 0, correctAnswer.value)
+
+    if (!multipleChoice.value) {
+        answerTextRef.value.focus()
+    }
 }
 
 onMounted(() => {
+    if (!multipleChoice.value) {
+        answerTextRef.value.focus()
+    }
     loadVideo()
 })
 
@@ -142,11 +185,25 @@ function choiceClicked(item: any) {
         return
     }
 
-    hasAnswered.value = true
     hasAnsweredCorrectly.value = item.name === correctAnswer.value.name
-    statusMessage.value = item.name === correctAnswer.value.name ? 'Correct!' : 'False'
+    handleAnswer(hasAnsweredCorrectly.value)
+}
 
-    if (hasAnsweredCorrectly.value) {
+function answerEntered(event: any) {
+    if (event.keyCode !== 13 || gameFinished.value || hasAnswered.value) {
+        return
+    }
+
+    hasAnsweredCorrectly.value = typedAnswer.value.toLowerCase() === correctAnswer.value.name.toLowerCase()
+    handleAnswer(hasAnsweredCorrectly.value)
+}
+
+function handleAnswer(isCorrect: Boolean) {
+    hasAnswered.value = true
+    statusMessage.value = isCorrect ? 'Correct!' : 'False'
+    statusSubMessage.value = isCorrect ? '' : `Correct answer: ${correctAnswer.value.name}`
+
+    if (isCorrect) {
         correctCount.value++
     } else {
         falseList.value.push(correctAnswer.value)
@@ -156,7 +213,7 @@ function choiceClicked(item: any) {
         setTimeout(() => {
             currentTechnique.value++
             hasAnswered.value = false
-            statusMessage.value = ''
+            statusMessage.value = statusSubMessage.value = ''
             loadVideo()
         }, 2000)
     }
