@@ -194,6 +194,7 @@ function answerEntered(event: any) {
         return
     }
 
+    answerTextRef.value.blur()
     let answer = typedAnswer.value.trim().toLowerCase()
     if (answer === '') {
         typedAnswer.value = ''
