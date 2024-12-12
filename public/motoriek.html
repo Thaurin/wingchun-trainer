@@ -10,6 +10,7 @@
 
 	h1 {
 		text-align: center;
+		font-size: 2.5em;
 	}
 
 	.media-button-container {
@@ -112,7 +113,8 @@
 		transition: background-color 0.3s; /* Smooth hover effect */
 	}
 
-	.text-setting {
+	.number-setting {
+		width: 2.5em;
 		font-size: 1.4em;
 	}
 
@@ -256,7 +258,7 @@
 			return;
 		}
 
-		seconds--	// There is a one-second bug somewhere. This fix is stupid but easier
+		seconds--	// There is a timer bug. This fix is stupid but easier
 		update()
 		getNewTechnique()
 
@@ -313,10 +315,7 @@
 				}
 			} else {
 				pause()
-				let repeat = document.getElementById('repeat').checked
-				if (repeat === true) {
-					setTimeout(start(), 1000)
-				}
+				setTimeout(start(), 1000)
 			}
 		}
 	}
@@ -349,12 +348,12 @@
 	<div id="move" class="currentmove-container">&nbsp;</div>
 
 	<div class="settings-container">
-		Seconden/drill: <input type="input" class="text-setting" name="length" id="length" value="3" size="3" maxlength="3">&nbsp;
-		<label><input type="checkbox" class="checkbox-setting" id="repeat" checked>&nbsp;Repeat</label>
-		&nbsp;&nbsp;|&nbsp;&nbsp;Selecteer:&nbsp;
+		Pauze/move: <input type="number" class="number-setting" name="length" id="length" value="3" min="1" max="99" step="1" maxlength="2">&nbsp;
+		&nbsp;&nbsp;|&nbsp;&nbsp;
 		<button type="button" class="normal-button" onclick="set_selected(true)">Alles</button>&nbsp;
 		<button type="button" class="normal-button" onclick="set_selected(false)">Niets</button>
-		&nbsp;&nbsp;|&nbsp;&nbsp;<label><input type="checkbox" class="checkbox-setting" id="twohands">&nbsp;Twee handen</label>
+		&nbsp;&nbsp;|&nbsp;&nbsp;
+		<label><input type="checkbox" class="checkbox-setting" id="twohands">&nbsp;Twee handen</label>
 	</div>
 
 	<div style="text-align: center">
