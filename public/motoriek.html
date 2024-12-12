@@ -149,7 +149,7 @@
 					console.log("Dutch voice not found, using default.")
 				}
 
-				utterance.rate = parseInt(document.getElementById('length').value) < 2 && document.getElementById('twohands').checked ? 1.5 : 1.1
+				utterance.rate = parseInt(document.getElementById('length').value) < 2 && document.getElementById('twohands').checked ? 1.5 : 1.2
 				speechSynthesis.speak(utterance)
 			}
 
@@ -191,11 +191,20 @@
 	}
 
 	function set_selected(checked) {
-		for (i=0; i < moves.length; i++)
-		{
+		let anyChecked = false
+		for (i=0; i < moves.length; i++) {
 			let checkbox = document.getElementById(`cb${i}`)
-			checkbox.checked = checked
+			if (checkbox.checked) {
+				anyChecked = true
+				break;
+			}
 		}
+
+		for (i=0; i < moves.length; i++) {
+			let checkbox = document.getElementById(`cb${i}`)
+			checkbox.checked = anyChecked ? false : true
+		}
+
 		reload()
 	}
 
@@ -243,25 +252,26 @@
 	}
 
 	function playPause() {
-		if (!stopped || paused) {
-			paused = !paused
-			update()
-			return
-		}
-
-		stopped = false
-		paused = false
-		let seconds = parseInt(document.getElementById('length').value)
-
 		if (selected_moves.length < 2) {
 			document.getElementById('move').innerHTML = 'Selecteer tenminste twee technieken'
 			return;
 		}
 
+		let seconds = parseInt(document.getElementById('length').value)
 		if (seconds < 1) {
 			document.getElementById('move').innerHTML = 'Selecteer minstens 1 seconde'
 			return;
 		}
+
+		if (!stopped || paused) {
+			paused = !paused
+			speechSynthesis.cancel()
+			update()
+			return;
+		}
+
+		stopped = false
+		paused = false
 
 		seconds--	// There is a timer bug. This fix is stupid but easier
 		update()
@@ -356,8 +366,7 @@
 		&nbsp;&nbsp;|&nbsp;&nbsp;
 		<label><input type="checkbox" class="checkbox-setting" id="twohands">&nbsp;Twee handen</label>
 		&nbsp;&nbsp;|&nbsp;&nbsp;
-		<button type="button" class="normal-button" onclick="set_selected(true)">Alles</button>&nbsp;
-		<button type="button" class="normal-button" onclick="set_selected(false)">Niets</button>
+		<button type="button" class="normal-button" onclick="set_selected(true)">Alles / niets</button>
 	</div>
 
 	<div style="text-align: center">
