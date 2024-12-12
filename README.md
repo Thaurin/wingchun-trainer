@@ -5,6 +5,7 @@ and motor skills exercises for those techniques.
 
 ## TODO
 
+- [ ] Fix video filename/location mess
 - [ ] Add a summary when finished with an overview or what was correct and what was incorrect
 - [ ] Be able to repeat incorrect answers, or make incorrect answers reappear to reinforce learning
 - [ ] Fix layout
