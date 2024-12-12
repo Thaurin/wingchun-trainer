@@ -182,15 +182,16 @@
 		let text = '<table class="movelist-table">'
 		for (i=0; i < moves.length; i++) {
 			if (i%cols === 0) { text += '<tr>' }
-			text += `<td><label class="movelist-item"><input type="checkbox" class="move-checkbox" id="cb${i}" value="${i}" onchange="reload()" checked>&nbsp;${moves[i]}</label></td>`
+			text += `<td><label class="movelist-item"><input type="checkbox" class="move-checkbox" id="cb${i}" value="${i}" onchange="reload()">&nbsp;${moves[i]}</label></td>`
 			if (i%cols === cols-1) { text += '</tr>' }
 		}
 		text += '</table>';
 		document.getElementById('movelist').innerHTML = text
+		setSelected()
 		reload()
 	}
 
-	function set_selected(checked) {
+	function setSelected() {
 		let anyChecked = false
 		for (i=0; i < moves.length; i++) {
 			let checkbox = document.getElementById(`cb${i}`)
@@ -199,6 +200,8 @@
 				break;
 			}
 		}
+
+		document.getElementById('toggle-all-button').innerHTML = anyChecked ? 'Alles aan' : 'Alles uit'
 
 		for (i=0; i < moves.length; i++) {
 			let checkbox = document.getElementById(`cb${i}`)
@@ -366,7 +369,7 @@
 		&nbsp;&nbsp;|&nbsp;&nbsp;
 		<label><input type="checkbox" class="checkbox-setting" id="twohands">&nbsp;Twee handen</label>
 		&nbsp;&nbsp;|&nbsp;&nbsp;
-		<button type="button" class="normal-button" onclick="set_selected(true)">Alles / niets</button>
+		<button id="toggle-all-button" type="button" class="normal-button" onclick="setSelected()">Alles uit</button>
 	</div>
 
 	<div style="text-align: center">
