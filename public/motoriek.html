@@ -295,6 +295,7 @@
 		clearInterval(interval)
 		m = 0
 		s = 0
+		document.getElementById('move').innerHTML = '&nbsp;'
 		speechSynthesis.cancel()
 		update()
 	}
@@ -326,7 +327,7 @@
 
 		update()
 
-		// Calculate the stop watch //
+		// Calculate the stop watch
 		if (s > 0) {
 			s = s - 1
 		} else {
