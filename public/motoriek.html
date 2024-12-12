@@ -222,7 +222,6 @@
 		if (twoHands) {
 			do {
 				a = Math.floor((Math.random() * selected_moves.length))
-				console.log()
 			} while (a === previous_move_a) 
 			do {
 				b = Math.floor((Math.random() * selected_moves.length))
@@ -243,7 +242,13 @@
 		sayWord(spokenWord)
 	}
 
-	function start() {
+	function playPause() {
+		if (!stopped || paused) {
+			paused = !paused
+			update()
+			return
+		}
+
 		stopped = false
 		paused = false
 		let seconds = parseInt(document.getElementById('length').value)
@@ -270,12 +275,6 @@
 		document.getElementById('timer').innerHTML = 'Next!'
 	}
 
-	function pause() {
-		if (stopped) { return; }
-		paused = !paused
-		update()
-	}
-
 	function stop() {
 		if (stopped) { return; }
 		stopped = true
@@ -290,12 +289,23 @@
 	function update() {
 		// Display the output
 		str = String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
+
 		document.getElementById('timer').innerHTML = str
 
-		document.getElementById('timer').style.background = paused || stopped ? '#FF0000' : '#00FF00'
-		document.getElementById('btnPause').innerHTML = paused && !stopped ?
-			'<i class="fas fa-pause"></i> Verder' :
-			'<i class="fas fa-pause"></i> Pause'
+		let timer_color
+		if (!paused && !stopped) timer_color = '#00FF00'
+		else if (paused) timer_color = '#FFFF00'
+		else if (stopped) timer_color = '#FF0000'
+		document.getElementById('timer').style.background = timer_color
+
+		let playing = !stopped && !paused
+
+		if (playing) {
+			document.getElementById('btnPlay').innerHTML ='<i class="fas fa-pause"></i> Pause'
+		}
+		else if (paused || stopped) {
+			document.getElementById('btnPlay').innerHTML = '<i class="fas fa-play"></i> Play'
+		}
 	}
 
 	function count() {
@@ -314,21 +324,16 @@
 					m = 59
 				}
 			} else {
-				pause()
-				setTimeout(start(), 1000)
+				stop()
+				playPause()
 			}
 		}
 	}
 
 	document.addEventListener("keydown", function(event) {
             if (event.code === "Space") {
-                event.preventDefault(); // Prevent scrolling or default behavior
-				if (stopped) {
-					start()
-				}
-				else {
-					stop()
-				}
+                event.preventDefault();
+				playPause()
             }
         });
 </script>
@@ -338,8 +343,7 @@
 	<h1>Wing Chun Motoriek en Techniek Training</h1>
 
 	<div class="media-button-container">
-		<button id="btnPlay" class="media-button" onclick="start()"><i class="fas fa-play"></i> Play</button>
-		<button id="btnPause" class="media-button" onclick="pause()"><i class="fas fa-pause"></i> Pause</button>
+		<button id="btnPlay" class="media-button" onclick="playPause()"><i class="fas fa-play"></i> Play</button>
 		<button id="btnStop" class="media-button" onclick="stop()"><i class="fas fa-stop"></i> Stop</button>
 	</div>
 
