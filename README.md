@@ -10,9 +10,9 @@ and motor skills exercises for those techniques.
 - [ ] Fix layout
 - [ ] Implement expert modes: no multiple choice but typing, with and without completion
 - [ ] Implement leaderboards
-- [ ] Implement text2voice for techniques
 - [ ] Randoms for left/right for motor skills exercise, instead of just altering left/right
 - [ ] Alternating 2-3 for left/right instead of just two
+- [x] Implement text2voice for techniques
 - [x] BUG? Correct anwers becomes (always is?) the last choice, 6
 - [ ] Integrate motor skills exercise with this app
   - [ ] Rewrite to Vue

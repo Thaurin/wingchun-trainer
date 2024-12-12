@@ -65,6 +65,7 @@
 <script setup lang="ts">
 import { onMounted, ref, computed, nextTick } from 'vue'
 import { eersteVorm, tweedeVorm } from './lib/vormen'
+import { sayWord } from './lib/speech'
 import TechniqueVideo from './components/TechniqueVideo.vue'
 import Choices from './components/Choices.vue'
 
@@ -212,6 +213,7 @@ function handleAnswer(isCorrect: Boolean) {
 
     if (isCorrect) {
         correctCount.value++
+        sayWord(correctAnswer.value.name)
     } else {
         falseList.value.push(correctAnswer.value)
     }
