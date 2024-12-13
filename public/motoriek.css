@@ -1,0 +1,123 @@
+body {
+	text-align: center;
+	font-family: roboto, sans-serif;
+}
+
+h1 {
+	text-align: center;
+	font-size: 2.5em;
+}
+
+.media-button-container {
+	width: 100%;
+	text-align: center;
+}
+
+.timer-container {
+	color: black;
+	background-color: #efefef;
+	font-size:50px;
+	font-weight: bold;
+	z-index: 2;
+	position: relative;
+	right: 10px;
+	top: 10px;
+	width: 100%;
+	padding: 20px;
+}
+
+.settings-container {
+	color: black;
+	font-size:20px;
+	z-index: 2;
+	position: relative;
+	right: 0px;
+	top: 10px;
+	width: 100%;
+	padding-left: 20px;
+	padding-top: 20px;
+	padding-bottom: 0px;
+}
+
+.movelist-container {
+	font-size:24px;
+	color: black;
+	text-align: left;
+	background-color: #efefef;
+	margin-top: 1em;
+	z-index: 2;
+	position: relative;
+	right: 0px;
+	top: 10px;
+	width: 100%;
+	padding: 20px;
+}
+
+.movelist-table {
+	margin: 0 auto;
+}
+
+.movelist-item {
+	font-size: 1.2em;
+}
+
+.currentmove-container {
+	color: white;
+	font-size: 3em;
+	font-weight: bold;
+	z-index: 2;
+	position: relative;
+	right: 10px;
+	top: 10px;
+	background-color: #555555;
+	width: 100%;
+	padding: 20px;
+}
+
+.move-checkbox {
+	width: 1em;
+	height: 3em;
+	transform: scale(1);
+	margin: 0.5em;
+	padding-left: 0;
+	padding-bottom: 5em;
+	vertical-align: middle;
+}
+
+.media-button {
+	font-size: 3em;      /* Larger icon and text */
+	padding: 15px 20px;  /* Adjusts button size */
+	margin: 0.25em;        /* Adds space between buttons */
+	border: none;        /* Removes border */
+	border-radius: 10px; /* Rounds button corners */
+	background-color: #007BFF; /* Button color */
+	color: white;        /* Text and icon color */
+	cursor: pointer;     /* Changes cursor on hover */
+	transition: background-color 0.3s; /* Smooth hover effect */
+}
+
+.normal-button {
+	font-size: 1em;      /* Larger icon and text */
+	padding: 0.4em 0.4em;  /* Adjusts button size */
+	margin: 0;        /* Adds space between buttons */
+	border: none;        /* Removes border */
+	border-radius: 7px; /* Rounds button corners */
+	background-color: #007BFF; /* Button color */
+	color: white;        /* Text and icon color */
+	cursor: pointer;     /* Changes cursor on hover */
+	transition: background-color 0.3s; /* Smooth hover effect */
+}
+
+.number-setting {
+	width: 2.5em;
+	font-size: 1.4em;
+}
+
+	.checkbox-setting {
+	width: 1.2em;
+	height: 1.2em;
+	transform: scale(1.25);
+	margin: 0.5em;
+	padding-left: 5em;
+	vertical-align: middle;
+}

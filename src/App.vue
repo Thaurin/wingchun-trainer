@@ -60,6 +60,8 @@
             </div>
         </div>
     </div>
+    <audio id="correctPlayer" src="sounds/correct.wav"></audio>
+    <audio id="incorrectPlayer" src="sounds/incorrect.wav"></audio>
 </template>
 
 <script setup lang="ts">
@@ -213,10 +215,13 @@ function handleAnswer(isCorrect: Boolean) {
 
     if (isCorrect) {
         correctCount.value++
-        sayWord(correctAnswer.value.name)
     } else {
         falseList.value.push(correctAnswer.value)
     }
+
+    const audioPlayer: HTMLAudioElement = document.getElementById(isCorrect ? 'correctPlayer' : 'incorrectPlayer') as HTMLAudioElement
+    if (audioPlayer) audioPlayer.play()
+    sayWord(correctAnswer.value.name)
 
     if (currentTechnique.value + 1 < randomizedVormen.value.length) {
         setTimeout(() => {
