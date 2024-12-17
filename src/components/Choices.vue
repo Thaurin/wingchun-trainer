@@ -59,9 +59,14 @@ watch([Digit1, Digit2, Digit3, Digit4, Digit5, Digit6], (v) => {
 .choices-header {
     font-size: 1.6em;
 }
-.choices > ol > li > a {
+
+.choices > ol > li {
     color: black;
+    padding: 0.25em;
     font-size: 1.5em;
+}
+
+.choices > ol > li > a {
     text-decoration: none;
 }
 .choices > ol > li > a:visited, .choices > ol > li > a:hover {
@@ -70,13 +75,16 @@ watch([Digit1, Digit2, Digit3, Digit4, Digit5, Digit6], (v) => {
 .choices > ol > li > a:active {
     color: #eee;
 }
+
 .false {
     background-color: red;
+    padding: 0.5em;
 }
 .false > a {
     color: white !important;
 }
 .true {
     background-color: lime;
+    padding: 0.5em;
 }
 </style>
