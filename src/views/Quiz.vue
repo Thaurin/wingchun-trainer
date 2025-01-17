@@ -247,10 +247,6 @@ function resetGame(practiceWrongAnswers = false) {
 </script>
 
 <style>
-  .video-status {
-
-  }
-
   .false-list {
     margin-left: 1em;
   }

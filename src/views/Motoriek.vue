@@ -1,6 +1,7 @@
 <template>
   <div class="static-view">
     <iframe
+      ref="iframeRef"
       :src="staticUrl"
       frameborder="0"
       style="width: 100%; height: 100%; border: none;"
@@ -8,17 +9,16 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
+<script setup lang="ts">
+import { ref, onMounted } from 'vue';
 
-export default defineComponent({
-  name: 'StaticView',
-  data() {
-    return {
-      staticUrl: '/wingchun/motoriek.html', // Replace with your desired URL
-    };
-  },
+const iframeRef = ref<HTMLIFrameElement | null>(null)
+const staticUrl = 'motoriek.html'
+
+onMounted(() => {
+  iframeRef.value?.focus()
 });
+
 </script>
 
 <style>
