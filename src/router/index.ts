@@ -17,6 +17,11 @@ const routes: Array<RouteRecordRaw> = [
   name: 'Motoriek',
   component: () => import('../views/Motoriek.vue'),
 },
+{
+  path: '/wingchun/motornew',
+  name: 'Motoriek New',
+  component: () => import('../views/MotoriekNew.vue'),
+},
 ];
 
 const router = createRouter({
