@@ -35,10 +35,12 @@ const sayWord = (word) => {
 }
 
 const moves = [
-	'wu sau', 'tahn sau', 'fook sau', 'tsing cheung', 'gum sau', 'kong sau',
-	'hang sau', 'pak sau', 'fak sau', 'woei sau', 'cham sau', 'jat sau',
-	'biu sau', 'faht chong kuen', 'dun sau', 'kwan sau', 'wang cheung', 'dai cheung', 'bong sau', 'sau kuen'
-]
+    'biu sau', 'bong sau', 'cham sau', 'dai cheung', 'dun sau', 
+    'fak sau', 'faht chong kuen', 'fook sau', 'gum sau', 'hang sau', 
+    'jat sau', 'kong sau', 'kwan sau', 'pak sau', 'sau kuen', 
+    'tahn sau', 'tsing cheung', 'wang cheung', 'woei sau', 'wu sau'
+];
+let move_set = []
 let selected_moves = []
 let previous_move_a, previous_move_b
 let m = 0

@@ -6,8 +6,6 @@
 </head>
 
 <body>
-	<h1>Wing Chun Motoriek en Techniek Training</h1>
-
 	<div class="media-button-container">
 		<button id="btnPlay" class="media-button" onclick="playPause()"><i class="fas fa-play"></i> Play</button>
 		<button id="btnStop" class="media-button" onclick="stop()"><i class="fas fa-stop"></i> Stop</button>
@@ -17,8 +15,10 @@
 
 	<div id="move" class="currentmove-container">&nbsp;</div>
 
+	<div id="set" class="set-container"></div>
+
 	<div class="settings-container">
-		Sec/move: <input type="number" class="number-setting" name="length" id="length" value="3" min="1" max="99" step="1" maxlength="2">&nbsp;
+		Lengte: <input type="number" class="number-setting" name="length" id="length" value="3" min="1" max="99" step="1" maxlength="2">&nbsp;sec&nbsp;
 		&nbsp;&nbsp;|&nbsp;&nbsp;
 		<label><input type="checkbox" class="checkbox-setting" id="twohands">&nbsp;Twee handen</label>
 		&nbsp;&nbsp;|&nbsp;&nbsp;

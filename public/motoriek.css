@@ -26,8 +26,13 @@ h1 {
 	padding: 20px;
 }
 
+.set-container {
+	background-color: white;
+}
+
 .settings-container {
 	color: black;
+	background-color: #efefef;
 	font-size:20px;
 	z-index: 2;
 	position: relative;
@@ -36,7 +41,7 @@ h1 {
 	width: 100%;
 	padding-left: 20px;
 	padding-top: 20px;
-	padding-bottom: 0px;
+	padding-bottom: 0;
 }
 
 .movelist-container {
@@ -44,7 +49,7 @@ h1 {
 	color: black;
 	text-align: left;
 	background-color: #efefef;
-	margin-top: 1em;
+	margin-top: 0;
 	z-index: 2;
 	position: relative;
 	right: 0px;
